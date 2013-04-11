@@ -29,10 +29,10 @@ License=GPL 3.0
 Description=Calculates the Equal Error Rate (EER) using the ROC curve. This error is very used in Biometrics. This error is calculated when False Accept Error and False Rejecti Error are equal.
 
 # Package URL for obtaining the package archive (required)
-PackageURL=http://prdownloads.sourceforge.net/weka/EER1.0.0.zip?download
+PackageURL=https://github.com/marmundo/eer/blob/master/eer/EER1.0.0.zip?raw=true
 
 # URL for further information
-URL=http://weka.sourceforge.net/doc.packages/EER
+URL=http://marmundo.github.io/eer/doc
 
 # Related to other packages?
 #Related=
