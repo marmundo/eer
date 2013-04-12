@@ -32,8 +32,13 @@ public class EER {
 	 */
 	private List<Double> FPR = new LinkedList<Double>();;
 
-	public EER(Instances curvePoints){
+	public EER(Instances curvePoints) throws Exception{
+		if(curvePoints.relationName()!="ThresholdCurve"){
+			throw new Exception("This is not a ThresholdCurve (ROC Curve)");
+		}
 		rocPoints=curvePoints;
+		
+		
 	}
 	/**
 	 * Leaves only the True and False Positives Rates from the Thereshold Curve Instances
