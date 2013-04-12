@@ -29,7 +29,7 @@ License=GPL 3.0
 Description=Calculates the Equal Error Rate (EER) using the ROC curve. This error is very used in Biometrics. This error is calculated when False Accept Error and False Rejecti Error are equal.
 
 # Package URL for obtaining the package archive (required)
-PackageURL=https://github.com/marmundo/eer/blob/master/eer/EER1.0.0.zip?raw=true
+PackageURL=https://github.com/marmundo/eer/blob/master/eer/EER.zip?raw=true
 
 # URL for further information
 URL=http://marmundo.github.io/eer/doc
