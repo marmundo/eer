@@ -58,8 +58,6 @@ public class EER {
 	public double calculateEER(){
 		rocPoints=removeOptionalAttributes(rocPoints);
 		getFPRTPR(rocPoints);	
-		LinkedList<Double> xy=getXequalsY();
-		System.out.println("ERROR from ROC points (FPR,TPR) ("+xy.get(0)+","+xy.get(1)+")");
 		LinkedList<Double> points=(getPointsXequalsY());
 		/*# Extract the two points as (x) and (y), and find the point on the
 		# line between x and y where the first and second elements of the
@@ -71,10 +69,7 @@ public class EER {
 		double y1=points.get(1);
 		double x2=points.get(2);
 		double y2=points.get(3);
-		double a=( x1 - x2 ) / ( y2 - x2 - y1 + x1 );
-		System.out.println("x1,y1:"+x1+","+y1);
-		System.out.println("x1,y1:"+x2+","+y2);
-		System.out.println("a:"+a);
+		double a=( x1 - x2 ) / ( y2 - x2 - y1 + x1 );		
 		double eer=x1 + a * ( y1 - x1 );
 		return eer;
 	}
@@ -124,6 +119,10 @@ public class EER {
 
 	}
 
+	/**
+	 * Method to get the 1 points in the ROC Curve where X is aproximately equals Y, i.e., FPR=(1-TPR).
+	 * @return 2 points: x,y. Where x and y are aproximately equals, i.e, the difference between x,y is the minimum
+	 */
 	private LinkedList<Double> getXequalsY(){
 		double min=1;
 		int index=1;
