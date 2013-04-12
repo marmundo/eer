@@ -2,9 +2,9 @@ package main;
 
 import java.util.Random;
 
-import main.java.weka.classifiers.evaluation.EER;
 
 import weka.core.Instances;
+import weka.classifiers.evaluation.EER;
 import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.evaluation.ThresholdCurve;

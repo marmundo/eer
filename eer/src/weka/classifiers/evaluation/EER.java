@@ -1,4 +1,4 @@
-package main.java.weka.classifiers.evaluation;
+package weka.classifiers.evaluation;
 
 import java.util.Enumeration;
 import java.util.LinkedList;
