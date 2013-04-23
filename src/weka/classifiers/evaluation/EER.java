@@ -1,10 +1,12 @@
 package weka.classifiers.evaluation;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import weka.core.Instance;
 import weka.core.Instances;
+
 
 /**
  * @author Marcelo
@@ -19,27 +21,39 @@ import weka.core.Instances;
  *System.out.println("EER= "+eer.calculateEER()*100+"%");
  */
 
-public class EER {
-
+public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric implements weka.classifiers.evaluation.StandardEvaluationMetric{
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * ROC Points
+	 */
 	private Instances rocPoints;
 	/**
 	 * True Positive Points
 	 */
-	private List<Double> TPR = new LinkedList<Double>();
+	private List<Double> TPR = new ArrayList<Double>();
 	
 	/**
 	 * False Positive Points
 	 */
-	private List<Double> FPR = new LinkedList<Double>();;
-
+	private List<Double> FPR = new ArrayList<Double>();
+	
+	public EER() {
+		super();
+	}
+	
 	public EER(Instances curvePoints) throws Exception{
 		if(curvePoints.relationName()!="ThresholdCurve"){
 			throw new Exception("This is not a ThresholdCurve (ROC Curve)");
 		}
-		rocPoints=curvePoints;
-		
-		
+		rocPoints=curvePoints;		
 	}
+	
 	/**
 	 * Leaves only the True and False Positives Rates from the Thereshold Curve Instances
 	 * @param rocPoints Instances generated from the getCurve method from the TheresholdCurve Class
@@ -106,6 +120,9 @@ public class EER {
 		points.add(FPR.get(index));
 		points.add(TPR.get(index));
 
+		if(index==0){
+			index=1;
+		}
 		double diff1=Math.abs(FPR.get(index-1)-TPR.get(index-1));
 		double diff2=Math.abs(FPR.get(index+1)-TPR.get(index+1));
 		if(diff1<diff2){
@@ -137,5 +154,53 @@ public class EER {
 		points.add(FPR.get(index));
 		points.add(TPR.get(index));		
 		return points;		
+	}
+	
+	
+	@Override
+	public boolean appliesToNominalClass() {
+		return true;
+	}
+	@Override
+	public boolean appliesToNumericClass() {
+		return false;
+	}
+	@Override
+	public String getMetricDescription() {
+		return "Calculate the Equal Error Rate (EER) using points in the Threshold Curve (ROC)";
+	}
+	@Override
+	public String getMetricName() {
+		return "EER";
+	}
+	@Override
+	public double getStatistic(String arg0) {
+		ThresholdCurve curve=new ThresholdCurve();
+		rocPoints= curve.getCurve(m_baseEvaluation.predictions());
+		return calculateEER();
+	}
+	
+	@Override
+	public List<String> getStatisticNames() {
+		ArrayList<String> statisticName=new ArrayList<String>();
+		statisticName.add("EER");
+		return statisticName;
+	}
+	@Override
+	public String toSummaryString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void updateStatsForClassifier(double[] arg0, Instance arg1)
+			throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void updateStatsForPredictor(double arg0, Instance arg1)
+			throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
 }
