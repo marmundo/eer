@@ -1,0 +1,41 @@
+# Description file for normalize
+#
+# 
+
+# Package name (required)
+PackageName=EER
+
+# Version (required)
+Version=1.0.0
+
+#Date
+Date=2013-04-10
+
+# Title (required)
+Title=Calculate the Equal Error Rate (EER) using the ROC curve
+
+Category=Evaluation
+
+# Author (required)
+Author=Marcelo Damasceno <marcelodamasceno@gmail.com>
+
+# Maintainer (required)
+Maintainer=Marcelo Damasceno <marcelodamasceno@gmail.com>
+
+# License (required)
+License=GPL 3.0
+
+# Description (required)
+Description=Calculates the Equal Error Rate (EER) using the ROC curve. This error is very used in Biometrics. This error is calculated when False Accept Error and False Rejecti Error are equal.
+
+# Package URL for obtaining the package archive (required)
+PackageURL=https://github.com/marmundo/eer/blob/master/eer/EER.zip?raw=true
+
+# URL for further information
+URL=http://marmundo.github.io/eer/doc
+
+# Related to other packages?
+#Related=
+
+# Dependencies
+Depends=weka (>=3.7.1)
