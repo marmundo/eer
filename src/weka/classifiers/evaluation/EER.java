@@ -140,6 +140,7 @@ public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric im
 	 * Method to get the 1 points in the ROC Curve where X is aproximately equals Y, i.e., FPR=(1-TPR).
 	 * @return 2 points: x,y. Where x and y are aproximately equals, i.e, the difference between x,y is the minimum
 	 */
+	@SuppressWarnings("unused")
 	private LinkedList<Double> getXequalsY(){
 		double min=1;
 		int index=1;
