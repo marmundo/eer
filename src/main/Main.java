@@ -1,14 +1,12 @@
 package main;
 
+
 import java.util.Random;
-
-
 import weka.core.Instances;
+import weka.core.WekaPackageManager;
 import weka.classifiers.evaluation.EER;
 import weka.classifiers.evaluation.Evaluation;
 import weka.classifiers.lazy.IBk;
-import weka.classifiers.evaluation.ThresholdCurve;
-
 import com.marcelodamasceno.util.ArffConector;
 
 public class Main {
@@ -16,8 +14,8 @@ public class Main {
 	/**
 	 * @param args
 	 */
-	private String path="C:/Users/Marcelo/workspace/Arff Editor/";
-	private String dataset="binary2.arff";
+	private String path="/home/marcelo/Área de Trabalho/Documentos-Windows/Google Drive/doutorado/projeto/dataset/Base de Toque/InterSession/";
+	private String dataset="InterSession-User_1_Day_1_Horizontal.arff";
 
 	public static void main(String[] args) {
 		Main main=new Main();
@@ -29,18 +27,34 @@ public class Main {
 		Instances data=conector.openDataSet(path+dataset);
 		IBk ibk=new IBk(5);
 		//ibk.buildClassifier(data);
-		Evaluation eval;
+		//Evaluation eval;
 		try {
-			eval = new Evaluation(data);
+			WekaPackageManager.loadPackages(false, false);
+			Evaluation eval = new Evaluation(data);
 			eval.crossValidateModel(ibk, data, 10, new Random(1));
+			//System.out.println(Evaluation.getAllEvaluationMetricNames());
+			//PackageManager.create().setPackageHome(new File("/home/marcelo/wekafiles/"));
+			//PackageManager pack=PackageManager.create();
+			//pack.setPackageHome(new File("/home/marcelo/wekafiles/"));
+			//System.out.println(pack.getInstalledPackages());
+			EER eer = (EER) eval.getPluginMetric("EER");
+			//System.out.println(eer);
+			//System.out.println(eer.getStatistic(""));
 			//Evaluation evaluation = new Evaluation(trainInstances);
 			//evaluation.evaluateModel(scheme, testInstances);
-			System.out.println(eval.toSummaryString());			
+			
+			//Using a modified way
+			/*EER err=new EER();
+			err.setBaseEvaluation(eval);*/
+			System.out.println(eer.getStatistic(""));
+			
+			
+			/*System.out.println(eval.toSummaryString());			
 			ThresholdCurve curve=new ThresholdCurve();
 			Instances rocPoints= curve.getCurve(eval.predictions());		
 			EER eer=new EER(rocPoints);
 			System.out.println("EER= "+eer.calculateEER()*100+"%");
-			
+			*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
