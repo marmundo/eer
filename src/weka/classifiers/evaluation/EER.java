@@ -189,8 +189,7 @@ public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric im
 	}
 	@Override
 	public String toSummaryString() {
-		// TODO Auto-generated method stub
-		return null;
+		  return "EER                                " + weka.core.Utils.doubleToString(getStatistic(""), 12, 4) + "\n";
 	}
 	@Override
 	public void updateStatsForClassifier(double[] arg0, Instance arg1)
