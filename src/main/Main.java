@@ -23,14 +23,12 @@ public class Main {
 	}
 
 	private void execute(){
-		ArffConector conector=new ArffConector();
-		Instances data=conector.openDataSet(path+dataset);
-		IBk ibk=new IBk(5);
-		//ibk.buildClassifier(data);
-		//Evaluation eval;
+		ArffConector conector=new ArffConector();		
 		try {
+			Instances data=conector.openDataSet(path+dataset);
 			WekaPackageManager.loadPackages(false, false);
 			Evaluation eval = new Evaluation(data);
+			IBk ibk=new IBk(5);
 			eval.crossValidateModel(ibk, data, 10, new Random(1));
 			//System.out.println(Evaluation.getAllEvaluationMetricNames());
 			//PackageManager.create().setPackageHome(new File("/home/marcelo/wekafiles/"));
