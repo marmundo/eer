@@ -22,13 +22,13 @@ import weka.core.Instances;
  */
 
 public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric implements weka.classifiers.evaluation.StandardEvaluationMetric{
-	
-	
+
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * ROC Points
 	 */
@@ -37,23 +37,23 @@ public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric im
 	 * True Positive Points
 	 */
 	private List<Double> TPR = new ArrayList<Double>();
-	
+
 	/**
 	 * False Positive Points
 	 */
 	private List<Double> FPR = new ArrayList<Double>();
-	
+
 	public EER() {
 		super();
 	}
-	
+
 	public EER(Instances curvePoints) throws Exception{
 		if(curvePoints.relationName()!="ThresholdCurve"){
 			throw new Exception("This is not a ThresholdCurve (ROC Curve)");
 		}
 		rocPoints=curvePoints;		
 	}
-	
+
 	/**
 	 * Leaves only the True and False Positives Rates from the Thereshold Curve Instances
 	 * @param rocPoints Instances generated from the getCurve method from the TheresholdCurve Class
@@ -73,12 +73,18 @@ public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric im
 		rocPoints=removeOptionalAttributes(rocPoints);
 		getFPRTPR(rocPoints);	
 		LinkedList<Double> points=(getPointsXequalsY());
+		//Already found the point where x==y
+		if(points.size()==2){
+			return points.get(0);
+
+		}
 		/*# Extract the two points as (x) and (y), and find the point on the
 		# line between x and y where the first and second elements of the
 		# vector are equal.  Specifically, the line through x and y is:
 		#   x + a*(y-x) for all a, and we want a such that
 		#   x[1] + a*(y[1]-x[1]) = x[2] + a*(y[2]-x[2]) so
 		#   a = (x[1] - x[2]) / (y[2]-x[2]-y[1]+x[1])*/
+
 		double x1=points.get(0);
 		double y1=points.get(1);
 		double x2=points.get(2);
@@ -120,12 +126,17 @@ public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric im
 		points.add(FPR.get(index));
 		points.add(TPR.get(index));
 
-		if(index==0){
-			index=1;
+		if(points.get(0).equals(points.get(1))){
+			if(points.get(0).equals(1.0)){
+				points.clear();
+				points.add(0.0);
+				points.add(0.0);				
+			}
+			return points;
 		}
 		double diff1=Math.abs(FPR.get(index-1)-TPR.get(index-1));
 		double diff2=Math.abs(FPR.get(index+1)-TPR.get(index+1));
-		if(diff1<diff2){
+		if(diff1<diff2 && !(FPR.get(index-1)==1.0)&& !(TPR.get(index-1)==1.0)){
 			points.add(FPR.get(index-1));
 			points.add(TPR.get(index-1));
 		}else{
@@ -156,8 +167,8 @@ public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric im
 		points.add(TPR.get(index));		
 		return points;		
 	}
-	
-	
+
+
 	@Override
 	public boolean appliesToNominalClass() {
 		return true;
@@ -180,7 +191,7 @@ public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric im
 		rocPoints= curve.getCurve(m_baseEvaluation.predictions());
 		return calculateEER();
 	}
-	
+
 	@Override
 	public List<String> getStatisticNames() {
 		ArrayList<String> statisticName=new ArrayList<String>();
@@ -189,18 +200,18 @@ public class EER extends weka.classifiers.evaluation.AbstractEvaluationMetric im
 	}
 	@Override
 	public String toSummaryString() {
-		  return "EER                                " + weka.core.Utils.doubleToString(getStatistic(""), 12, 4) + "\n";
+		return "EER                                " + weka.core.Utils.doubleToString(getStatistic(""), 12, 4) + "\n";
 	}
 	@Override
 	public void updateStatsForClassifier(double[] arg0, Instance arg1)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 	@Override
 	public void updateStatsForPredictor(double arg0, Instance arg1)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
