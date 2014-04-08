@@ -1,2 +1,0 @@
-# Specify a new plugin Evaluation metric
-weka.classifiers.evaluation.AbstractEvaluationMetric=weka.classifiers.evaluation.EER
